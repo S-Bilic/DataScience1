@@ -23,8 +23,10 @@ namespace DataScience1
 
                     if (line != null)
                     {
+                        //split each line
                         var values = line.Split(',');
 
+                        //checks if a userID key exists, if not, the userID key is made.
                         if (dict.Count(k => k.Key == int.Parse(values[0])) > 0)
                         {
                             var tempdict = dict.Single(d => d.Key == int.Parse(values[0])).Value;
