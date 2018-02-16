@@ -12,44 +12,40 @@ namespace DataScience1
         static void Main(string[] args)
         {
             
-            Dictionary<string, string> dict = new Dictionary<string, string>();
+            Dictionary<int, Dictionary<int, double>> dict = new Dictionary<int, Dictionary<int, double>>();
             String fileName = "C:\\Users\\Stefan\\Documents\\Inf4\\DataScience1\\userItem.data";
 
             using (var sr = new StreamReader(fileName))
             {
-                string line = null;
-
-                // while it reads a key
-                while ((line = sr.ReadLine()) != null)
+                while (!sr.EndOfStream)
                 {
-                    // add the key and whatever it 
-                    // can read next as the value
-                    dict.Add(line, sr.ReadLine());              
+                    var line = sr.ReadLine();
 
-                    // Get List of keys. [2]
-                    List<string> keyList = new List<string>(dict.Keys);
-                    // Display them.
-                    foreach (var value in keyList)
+                    if (line != null)
                     {
-                        Console.WriteLine(value.Split(','));
-                    }
+                        var values = line.Split(',');
 
-                    // Get List of values. [3]
-                    List<string> valueList = new List<string>(dict.Values);
-                    // Display them.
-                    foreach (var value in valueList)
-                    {
-                        Console.WriteLine(value);
-                    }
+                        if (dict.Count(k => k.Key == int.Parse(values[0])) > 0)
+                        {
+                            var tempdict = dict.Single(d => d.Key == int.Parse(values[0])).Value;
+                            tempdict.Add(int.Parse(values[1]), double.Parse(values[2].Replace('.', ',')));
 
+                            dict[int.Parse(values[0])] = tempdict;
+                        }
+                        else
+                        {
+                            dict.Add(int.Parse(values[0]), new Dictionary<int, double>() { { int.Parse(values[1]), double.Parse(values[2].Replace('.', ',')) } });
+                        }
+                    }
+                }
+            }
+
+            foreach (var user in dict)
+            {
+                foreach (var art in user.Value)
+                {
+                    Console.WriteLine("User:" + user.Key + "---Article:" + art.Key + "---Rating" + art.Value);
                     Console.ReadLine();
-                    //List<KeyValuePair<string, string>> list = dict.ToList();
-                    //// Loop over list.
-                    //foreach (KeyValuePair<string, string> pair in list)
-                    //{
-                    //    Console.WriteLine(pair.Value.Split(','));
-
-                    //}
                 }
             }
         }
