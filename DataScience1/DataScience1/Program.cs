@@ -43,13 +43,14 @@ namespace DataScience1
             }
 
             foreach (var user in dict)
-            {
+            { 
                 foreach (var art in user.Value)
                 {
-                    Console.WriteLine("User:" + user.Key + "---Article:" + art.Key + "---Rating" + art.Value);
+                    Console.WriteLine("User:" + user.Key + "---Article:" + art.Key + "---Rating:" + art.Value);
                     Console.ReadLine();
                 }
             }
         }
+
     }
 }
