@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DataScience1
 {
-    public class Euclidean : InterfaceAlgorithm
+    class Cosine : InterfaceAlgorithm
     {
         public void Use()
         {
-            Console.WriteLine("Using Euclidean!");
+            Console.WriteLine("Using Cosine!");
         }
     }
 }

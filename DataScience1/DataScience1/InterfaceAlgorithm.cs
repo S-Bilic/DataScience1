@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DataScience1
 {
-    public interface Interface
+    public interface InterfaceAlgorithm 
     {
-
+        void Use();
     }
 }

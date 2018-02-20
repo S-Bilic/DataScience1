@@ -42,8 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cosine.cs" />
+    <Compile Include="DataSet.cs" />
     <Compile Include="Euclidean.cs" />
-    <Compile Include="Interface.cs" />
+    <Compile Include="InterfaceAlgorithm.cs" />
+    <Compile Include="Pearson.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
