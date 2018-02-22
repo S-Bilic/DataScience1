@@ -10,14 +10,35 @@ namespace DataScience1
     {
         private InterfaceAlgorithm IAlgorithm;
 
-        public void setAlgorithm(InterfaceAlgorithm newAlgorithm)
+        private Dictionary<string, Dictionary<string, double>> Context;
+
+        private string TargetUser;
+
+        private double SimmThreshhold;
+
+        public void SetAlgorithm(InterfaceAlgorithm newAlgorithm)
         {
             IAlgorithm = newAlgorithm;
         }
 
+        public void SetContext(Dictionary<string,Dictionary<string,double>> context)
+        {
+            Context = context;
+        }
+
+        public void SetTargetUser(string targetUser)
+        {
+            TargetUser = targetUser;
+        }
+
+        public void SetThreshold(double simmthreshold)
+        {
+            SimmThreshhold = simmthreshold;
+        }
+
         public void Init()
         {
-            IAlgorithm.Use();
+            IAlgorithm.Use(TargetUser, Context, SimmThreshhold);
         }
     }
 }

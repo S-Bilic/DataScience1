@@ -8,7 +8,7 @@ namespace DataScience1
 {
     class Cosine : InterfaceAlgorithm
     {
-        public void Use()
+        public void Use(string targetUser, Dictionary<string, Dictionary<string, double>> context, double simmthreshold)
         {
             Console.WriteLine("Using Cosine!");
         }

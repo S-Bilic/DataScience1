@@ -11,8 +11,14 @@ namespace DataScience1
     {
         static void Main(string[] args)
         {
-            InterfaceAlgorithm newAlgorithm = null;
+            
+
             DataSet data = new DataSet();
+
+            data.SetContext(ReadFileToDict());
+            //The taget user specifies the user for witch all other users have to compare with
+            data.SetTargetUser("7");
+            data.SetThreshold(0.35);
 
             while (true)
             {
@@ -22,58 +28,52 @@ namespace DataScience1
                 switch (input)
                 {
                     case "1":
-                        newAlgorithm = new Euclidean();
+                        data.SetAlgorithm(new Euclidean());
                         break;
                     case "2":
-                        newAlgorithm = new Pearson();
+                        data.SetAlgorithm(new Pearson());
                         break;
                     case "3":
-                        newAlgorithm = new Cosine();
+                        data.SetAlgorithm(new Cosine());
                         break;
                 }
 
-                data.setAlgorithm(newAlgorithm);
                 data.Init();
             }
+        }
 
-            //Dictionary<int, Dictionary<int, double>> dict = new Dictionary<int, Dictionary<int, double>>();
-            //String fileName = "C:\\Users\\Stefan\\Documents\\Inf4\\DataScience1\\userItem.data";
+        private static Dictionary<string, Dictionary<string, double>> ReadFileToDict()
+        {
+            Dictionary<string, Dictionary<string, double>> dict = new Dictionary<string, Dictionary<string, double>>();
+            String fileName = "C:\\Users\\Stefan\\Documents\\Inf4\\DataScience1\\userItem.data";
 
-            //using (var sr = new StreamReader(fileName))
-            //{
-            //    while (!sr.EndOfStream)
-            //    {
-            //        var line = sr.ReadLine();
+            using (var sr = new StreamReader(fileName))
+            {
+                while (!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine();
 
-            //        if (line != null)
-            //        {
-            //            //split each line
-            //            var values = line.Split(',');
+                    if (line != null)
+                    {
+                        //split each line
+                        var values = line.Split(',');
 
-            //            //checks if a userID key exists, if not, the userID key is made.
-            //            if (dict.Count(k => k.Key == int.Parse(values[0])) > 0)
-            //            {
-            //                var tempdict = dict.Single(d => d.Key == int.Parse(values[0])).Value;
-            //                tempdict.Add(int.Parse(values[1]), double.Parse(values[2].Replace('.', ',')));
+                        //checks if a userID key exists, if not, the userID key is made.
+                        if (dict.Count(k => k.Key == values[0]) > 0)
+                        {
+                            var tempdict = dict.Single(d => d.Key == values[0]).Value;
+                            tempdict.Add(values[1], double.Parse(values[2].Replace('.', ',')));
 
-            //                dict[int.Parse(values[0])] = tempdict;
-            //            }
-            //            else
-            //            {
-            //                dict.Add(int.Parse(values[0]), new Dictionary<int, double>() { { int.Parse(values[1]), double.Parse(values[2].Replace('.', ',')) } });
-            //            }
-            //        }
-            //    }
-            //}
-
-            //foreach (var user in dict)
-            //{ 
-            //    foreach (var art in user.Value)
-            //    {
-            //        Console.WriteLine("User:" + user.Key + "---Article:" + art.Key + "---Rating:" + art.Value);
-            //        Console.ReadLine();
-            //    }
-            //}
+                            dict[values[0]] = tempdict;
+                        }
+                        else
+                        {
+                            dict.Add(values[0], new Dictionary<string, double>() { { values[1], double.Parse(values[2].Replace('.', ',')) } });
+                        }
+                    }
+                }
+            }
+            return dict;
         }
 
     }

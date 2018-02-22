@@ -8,7 +8,7 @@ namespace DataScience1
 {
     class Pearson : InterfaceAlgorithm
     {
-        public void Use()
+        public void Use(string targetUser, Dictionary<string, Dictionary<string, double>> context, double simmthreshold)
         {
             Console.WriteLine("Using Pearson!");
         }
