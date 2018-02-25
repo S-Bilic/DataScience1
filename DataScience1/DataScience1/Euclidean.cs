@@ -31,23 +31,24 @@ namespace DataScience1
                                 sumSquaredDist += Math.Pow((mainUserRating - article.Value),2);
                             }
                         }
-                        //                                          Sim threshhold
-                        if ((1 / (1 + Math.Sqrt(sumSquaredDist))) > simmthreshold)
+                        double similarity = (1 / (1 + Math.Sqrt(sumSquaredDist)));
+                        //               Sim threshhold
+                        if (similarity > simmthreshold)
                         {
-                            dict.Add(user.Key, Math.Sqrt(sumSquaredDist));
+                            dict.Add(user.Key, similarity);
                         }
                     }
                 }
-                var sortedDict = from user in dict orderby user.Value select user;
+                var sortedDict = from user in dict orderby user.Value descending select user;
                 foreach (var user in sortedDict)
                 {
-                    Console.WriteLine(user.Key + "   distance " + user.Value);
+                    Console.WriteLine(" Neighbour " + user.Key + ": Sim = " + user.Value);
                 }
                 Console.ReadLine();
             }
             else
             {
-                Console.WriteLine("User not found!");
+                Console.WriteLine("Neighbour not found!");
                 Console.ReadLine();
             }
         }
