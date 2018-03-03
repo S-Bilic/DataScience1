@@ -28,15 +28,16 @@ namespace DataScience1
                             if (mainUser.Value.Keys.Contains(article.Key))
                             {
                                 double mainUserRating = mainUser.Value.SingleOrDefault(v => v.Key == article.Key).Value;
-                                cosineSimNumerator += ((mainUserRating * article.Value));
-                                cosineSimDenumerator1 += (Math.Pow((mainUserRating), 2));
-                                cosineSimDenumerator2 += (Math.Pow((article.Value), 2));
-                                cosineSimDenumeratorTotal = (Math.Sqrt(cosineSimDenumerator1)) * (Math.Sqrt(cosineSimDenumerator2));
+                                cosineSimNumerator += mainUserRating * article.Value;
+                                cosineSimDenumerator1 += Math.Pow((mainUserRating), 2);
+                                cosineSimDenumerator2 += Math.Pow((article.Value), 2);
 
                                 Console.WriteLine("User 7 =" + mainUserRating + " all users =" + article.Value + " " + cosineSimDenumerator1 + " " + Math.Sqrt(cosineSimDenumerator1) + " " + cosineSimDenumerator2 + " " + Math.Sqrt(cosineSimDenumerator2) + " " + cosineSimDenumeratorTotal);
                                
                             }
                         }
+                        cosineSimDenumeratorTotal = (Math.Sqrt(cosineSimDenumerator1)) * (Math.Sqrt(cosineSimDenumerator2));
+
                         double cosineSim = cosineSimNumerator / cosineSimDenumeratorTotal;
                         if (cosineSim > simmthreshold)
                         {

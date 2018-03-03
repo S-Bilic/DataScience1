@@ -24,6 +24,7 @@ namespace DataScience1
                         double pearsonY2 = 0;
                         double pearsonXY = 0;
                         double pearson = 0;
+                        int appearance = 0;
                         foreach (var article in user.Value)
                         {
                             if (mainUser.Value.Keys.Contains(article.Key))
@@ -34,17 +35,31 @@ namespace DataScience1
                                 pearsonY += (article.Value);
                                 pearsonX2 += Math.Pow((mainUserRating),2);
                                 pearsonY2 += Math.Pow((article.Value), 2);
+                                appearance++;
 
-                                pearson = (pearsonXY - ((pearsonX * pearsonY) / mainUser.Key.Count())) / (Math.Sqrt(pearsonX2 - (Math.Pow((pearsonX),2) / mainUser.Key.Count())) * (pearsonY2 - (Math.Pow((pearsonY), 2) / mainUser.Key.Count())));
-                                Console.WriteLine(mainUser.Key.Count());
+                                
                                 //Console.WriteLine("User 7 =" + mainUserRating + " all users =" + article.Value + " " + cosineSimDenumerator1 + " " + Math.Sqrt(cosineSimDenumerator1) + " " + cosineSimDenumerator2 + " " + Math.Sqrt(cosineSimDenumerator2) + " " + cosineSimDenumeratorTotal);
 
                             }
                         }
-                        
+                        double upperPart = pearsonXY - (pearsonX * pearsonY / appearance);
+                        double lowerX = pearsonX2 - (Math.Pow(pearsonX, 2) / appearance);
+                        double lowerY = pearsonY2 - (Math.Pow(pearsonY, 2) / appearance);
+                        pearson = upperPart / (Math.Sqrt(lowerX * lowerY));
+
                         if (pearson > simmthreshold)
                         {
-                            dict.Add(user.Key, pearson);
+                            var tempDict = from item in dict orderby item.Value descending select item;
+
+                            if (dict.Count == 3 && tempDict.Last().Value < pearson)
+                            {
+                                dict.Remove(tempDict.Last().Key);
+                            }
+
+                            if (dict.Count< 3)
+                            {
+                                dict.Add(user.Key, pearson);
+                            }
                         }
                     }
                 }
@@ -53,12 +68,37 @@ namespace DataScience1
                 {
                     Console.WriteLine(" Neighbour " + user.Key + ": Sim = " + user.Value);
                 }
+
+                List<string> movieList = new List<string>() { "101", "103", "106" };
+
+                CalculateRating(context, dict, movieList);
+
                 Console.ReadLine();
             }
             else
             {
                 Console.WriteLine("Neighbour not found!");
                 Console.ReadLine();
+            }
+        }
+
+        private void CalculateRating(Dictionary<string, Dictionary<string, double>> context, Dictionary<string, double> dict, List<string> movies)
+        {
+            foreach (var movie in movies)
+            {
+                double sumPearsonCof = 0;
+                double sumRatings = 0;
+                foreach (var neighbor in dict)
+                {
+                    var user = context.SingleOrDefault(u => u.Key == neighbor.Key);
+                    if (user.Key != null && user.Value.Count(m => m.Key == movie) > 0)
+                    {
+                        sumRatings += user.Value.SingleOrDefault(m => m.Key == movie).Value * neighbor.Value;
+                        sumPearsonCof += neighbor.Value;
+                    }
+                }
+
+                Console.WriteLine("Expected rating for:" + movie + " = " + (sumRatings / sumPearsonCof));
             }
         }
     }
