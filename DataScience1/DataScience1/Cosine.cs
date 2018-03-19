@@ -18,30 +18,37 @@ namespace DataScience1
                 {
                     if (user.Key != targetUser)
                     {
-                        double cosineSimNumerator = 0;  
+                        double cosineSimNumerator = 0;
                         double cosineSimDenumerator1 = 0;
-                        double cosineSimDenumerator2 = 0;                       
+                        double cosineSimDenumerator2 = 0;
                         double cosineSimDenumeratorTotal = 0;
-                       
+
                         foreach (var article in user.Value)
                         {
-                            if (mainUser.Value.Keys.Contains(article.Key))
-                            {
-                                double mainUserRating = mainUser.Value.SingleOrDefault(v => v.Key == article.Key).Value;
-                                cosineSimNumerator += mainUserRating * article.Value;
-                                cosineSimDenumerator1 += Math.Pow((mainUserRating), 2);
-                                cosineSimDenumerator2 += Math.Pow((article.Value), 2);
+                            double mainUserRating = mainUser.Value.SingleOrDefault(v => v.Key == article.Key).Value;
+                            cosineSimNumerator += mainUserRating * article.Value;
+                            cosineSimDenumerator1 += Math.Pow((mainUserRating), 2);
+                            cosineSimDenumerator2 += Math.Pow((article.Value), 2);
 
-                                Console.WriteLine("User 7 =" + mainUserRating + " all users =" + article.Value + " " + cosineSimDenumerator1 + " " + Math.Sqrt(cosineSimDenumerator1) + " " + cosineSimDenumerator2 + " " + Math.Sqrt(cosineSimDenumerator2) + " " + cosineSimDenumeratorTotal);
-                               
-                            }
+                            //Console.WriteLine("User 7 =" + mainUserRating + " all users =" + article.Value + " " + cosineSimDenumerator1 + " " + Math.Sqrt(cosineSimDenumerator1) + " " + cosineSimDenumerator2 + " " + Math.Sqrt(cosineSimDenumerator2) + " " + cosineSimDenumeratorTotal);   
                         }
                         cosineSimDenumeratorTotal = (Math.Sqrt(cosineSimDenumerator1)) * (Math.Sqrt(cosineSimDenumerator2));
 
                         double cosineSim = cosineSimNumerator / cosineSimDenumeratorTotal;
                         if (cosineSim > simmthreshold)
-                        {
-                            dict.Add(user.Key, cosineSim);
+                        {               
+                            var tempDict = from item in dict orderby item.Value descending select item;
+
+                            if (dict.Count == 3 && tempDict.Last().Value < cosineSim)
+                            {
+                                dict.Remove(tempDict.Last().Key);
+                            }
+
+                            if (dict.Count < 3)
+                            {
+                                dict.Add(user.Key, cosineSim);
+                            }
+                            //dict.Add(user.Key, cosineSim);
                         }
                     }
                 }

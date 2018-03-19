@@ -22,7 +22,7 @@ namespace DataScience1
 
             while (true)
             {
-                Console.WriteLine("Choose your Algorithm: (1 = Euclidean, 2 = Pearson, 3 = Cosine)");
+                Console.WriteLine("Choose your Algorithm: (1 = Euclidean, 2 = Pearson, 3 = Cosine, 4 = Slope One)");
                 String input = Console.ReadLine();
 
                 switch (input)
@@ -35,6 +35,9 @@ namespace DataScience1
                         break;
                     case "3":
                         data.SetAlgorithm(new Cosine());
+                        break;
+                    case "4":
+                        data.SetAlgorithm(new SlopeOne());
                         break;
                 }
 
