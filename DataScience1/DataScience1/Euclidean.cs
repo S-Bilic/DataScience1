@@ -9,7 +9,7 @@ namespace DataScience1
     public class Euclidean : InterfaceAlgorithm
     {
         //provide simm threshhold
-        public void Use(string targetUser, Dictionary<string, Dictionary<string, double>> context, double simmthreshold)
+        public void Use(Dictionary<string, List<string>> userItems, string targetUser, Dictionary<string, Dictionary<string, double>> context, double simmthreshold)
         {
             //Euclidean looks at each user and the calculates the difference between the same articles rate by the user and main user
 

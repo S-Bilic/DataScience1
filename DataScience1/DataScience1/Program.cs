@@ -11,13 +11,15 @@ namespace DataScience1
     {
         static void Main(string[] args)
         {
-            
-
             DataSet data = new DataSet();
 
             data.SetContext(ReadFileToDict());
             //The taget user specifies the user for witch all other users have to compare with
             data.SetTargetUser("7");
+            data.SetUserItems(new Dictionary<string, List<string>>() {
+                { "7", new List<string>() {"101", "103", "106" } },
+                { "3", new List<string>(){"103", "105" } }
+            });
             data.SetThreshold(0.35);
 
             while (true)

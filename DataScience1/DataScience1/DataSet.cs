@@ -12,6 +12,8 @@ namespace DataScience1
 
         private Dictionary<string, Dictionary<string, double>> Context;
 
+        private Dictionary<string, List<string>> UserItems;
+
         private string TargetUser;
 
         private double SimmThreshhold;
@@ -26,6 +28,11 @@ namespace DataScience1
             Context = context;
         }
 
+        public void SetUserItems(Dictionary<string, List<string>> userItems)
+        {
+            UserItems = userItems;
+        }
+
         public void SetTargetUser(string targetUser)
         {
             TargetUser = targetUser;
@@ -38,7 +45,7 @@ namespace DataScience1
 
         public void Init()
         {
-            IAlgorithm.Use(TargetUser, Context, SimmThreshhold);
+            IAlgorithm.Use(UserItems, TargetUser, Context, SimmThreshhold);
         }
     }
 }

@@ -8,6 +8,6 @@ namespace DataScience1
 {
     public interface InterfaceAlgorithm 
     {
-        void Use(string targetUser, Dictionary<string,Dictionary<string,double>> context, double simmthreshold);
+        void Use(Dictionary<string, List<string>> userItems, string targetUser, Dictionary<string,Dictionary<string,double>> context, double simmthreshold);
     }
 }

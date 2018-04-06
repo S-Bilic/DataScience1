@@ -8,7 +8,7 @@ namespace DataScience1
 {
     class Cosine : InterfaceAlgorithm
     {
-        public void Use(string targetUser, Dictionary<string, Dictionary<string, double>> context, double simmthreshold)
+        public void Use(Dictionary<string, List<string>> userItems, string targetUser, Dictionary<string, Dictionary<string, double>> context, double simmthreshold)
         {
             Dictionary<string, double> dict = new Dictionary<string, double>();
             var mainUser = context.SingleOrDefault(u => u.Key == targetUser);
